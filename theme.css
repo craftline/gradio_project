@@ -15,6 +15,7 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   direction: rtl;
+  padding: 20px 0;
 }
 
 .title {
@@ -22,11 +23,28 @@ body {
   font-weight: bold;
   color: #143B9A;
   text-align: right;
+  margin: 0;
+}
+
+.logo {
+  margin: 0;
 }
 
 .logo img {
   height: 60px;
   width: auto;
+}
+
+/* SVG Logo styling */
+.logo svg {
+  height: 60px;
+  width: 60px;
+  filter: brightness(0) invert(1);
+}
+
+/* For dark backgrounds, keep original colors */
+.header .logo svg {
+  filter: none;
 }
 
 /* Separator */
@@ -37,7 +55,7 @@ body {
   background-color: #143B9A;
   border: none;
   border-radius: 2px;
-  margin: 20px auto 40px auto;
+  margin: 20px auto 60px auto;
 }
 
 /* Box-style buttons */

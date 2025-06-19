@@ -1,0 +1,25 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="30" cy="30" r="28" fill="#143B9A" stroke="#0f2a6b" stroke-width="2"/>
+  
+  <!-- Document icon -->
+  <rect x="18" y="15" width="24" height="30" rx="2" fill="white" opacity="0.9"/>
+  
+  <!-- Document lines -->
+  <rect x="22" y="22" width="16" height="2" rx="1" fill="#143B9A"/>
+  <rect x="22" y="26" width="16" height="2" rx="1" fill="#143B9A"/>
+  <rect x="22" y="30" width="12" height="2" rx="1" fill="#143B9A"/>
+  <rect x="22" y="34" width="14" height="2" rx="1" fill="#143B9A"/>
+  
+  <!-- AI/Technology elements -->
+  <circle cx="38" cy="38" r="3" fill="#143B9A" opacity="0.8"/>
+  <circle cx="38" cy="38" r="1.5" fill="white"/>
+  
+  <!-- Connection lines -->
+  <line x1="36" y1="36" x2="34" y2="34" stroke="#143B9A" stroke-width="1.5" opacity="0.6"/>
+  <line x1="40" y1="36" x2="42" y2="34" stroke="#143B9A" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="25" cy="42" r="1" fill="#143B9A" opacity="0.4"/>
+  <circle cx="35" cy="42" r="1" fill="#143B9A" opacity="0.4"/>
+</svg> 

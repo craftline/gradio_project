@@ -1,13 +1,16 @@
 import gradio as gr
 import requests
+import base64
+
+title = "برامج الذكاء الاصطناعي لأعمال اللجان"
+
+# Load logo SVG file
+with open("logo.svg", "r", encoding="utf-8") as f:
+    logo_svg = f.read()
 
 # Load custom theme
 with open("theme.css", encoding="utf-8") as f:
     css = f.read()
-
-# Load logo from base64 file
-with open("logo_base64.txt", "r", encoding="utf-8") as f:
-    logo_base64 = f.read().strip()
 
 # Helper function to call backend
 def process_backend(route, file_obj):
@@ -43,18 +46,58 @@ def show_app3():
 def show_app4():
     return gr.update(visible=False), gr.update(visible=False), gr.update(visible=False), gr.update(visible=False), gr.update(visible=True)
 
-# Shared logo HTML
+# Shared logo HTML with SVG
 logo_html = f"""
 <div class="header">
-  <div class="title">برامج الذكاء الاصطناعي لأعمال اللجان</div>
   <div class="logo">
-    <img src="{logo_base64}" alt="Logo" />
+    {logo_svg}
   </div>
+  <div class="title">برامج الذكاء الاصطناعي لأعمال اللجان</div>
 </div>
 <hr class="separator" />
 """
 
-with gr.Blocks(css=css) as demo:
+# Encode SVG to base64 for favicon
+logo_base64 = base64.b64encode(logo_svg.encode('utf-8')).decode('utf-8')
+
+# Custom HTML head with favicon and meta tags
+custom_head = f"""
+<head>
+    <!-- Favicon using the same SVG logo -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{logo_base64}">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,{logo_base64}">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml;base64,{logo_base64}">
+    
+    <!-- Apple Touch Icon for iOS devices -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,{logo_base64}">
+    
+    <!-- Meta tags for better SEO and social sharing -->
+    <meta name="description" content="برامج الذكاء الاصطناعي لأعمال اللجان - تطبيق متقدم لمعالجة وتلخيص وترجمة الوثائق باستخدام الذكاء الاصطناعي">
+    <meta name="keywords" content="ذكاء اصطناعي, تلخيص, ترجمة, وثائق, لجان, AI, summarization, translation, documents">
+    <meta name="author" content="AI Committee Work Programs">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph tags for social media -->
+    <meta property="og:title" content="برامج الذكاء الاصطناعي لأعمال اللجان">
+    <meta property="og:description" content="تطبيق متقدم لمعالجة وتلخيص وترجمة الوثائق باستخدام الذكاء الاصطناعي">
+    <meta property="og:type" content="website">
+    <meta property="og:image" href="data:image/svg+xml;base64,{logo_base64}">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="برامج الذكاء الاصطناعي لأعمال اللجان">
+    <meta name="twitter:description" content="تطبيق متقدم لمعالجة وتلخيص وترجمة الوثائق باستخدام الذكاء الاصطناعي">
+    
+    <!-- Theme color for browser UI -->
+    <meta name="theme-color" content="#143B9A">
+    
+    <!-- RTL support -->
+    <meta name="dir" content="rtl">
+    <meta name="lang" content="ar">
+</head>
+"""
+
+with gr.Blocks(css=css, head=custom_head, title=title) as demo:
     app1 = gr.Column(visible=False)
     app2 = gr.Column(visible=False)
     app3 = gr.Column(visible=False)
@@ -119,4 +162,11 @@ with gr.Blocks(css=css) as demo:
     btn3.click(fn=show_app3, outputs=[home, app1, app2, app3, app4])
     btn4.click(fn=show_app4, outputs=[home, app1, app2, app3, app4])
 
-demo.launch()
+# Launch with custom title and favicon
+demo.launch(
+    server_name="0.0.0.0",
+    server_port=7860,
+    share=False,
+    show_error=True,
+    quiet=False
+)
