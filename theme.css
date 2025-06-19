@@ -14,12 +14,14 @@ body {
   align-items: center;
   max-width: 1000px;
   margin: 0 auto;
+  direction: rtl;
 }
 
 .title {
   font-size: 28px;
   font-weight: bold;
   color: #143B9A;
+  text-align: right;
 }
 
 .logo img {
@@ -54,6 +56,7 @@ body {
   border: none !important;
   cursor: pointer;
   transition: transform 0.2s ease;
+  direction: rtl;
 }
 
 .box:hover {
@@ -66,4 +69,59 @@ body {
   justify-content: center;
   gap: 20px;
   margin-bottom: 20px;
+  direction: rtl;
+}
+
+/* RTL Support for Gradio Components */
+.gradio-container {
+  direction: rtl;
+}
+
+/* File upload components */
+.file-upload {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Text areas and inputs */
+textarea, input {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Buttons */
+button {
+  direction: rtl;
+  text-align: center;
+}
+
+/* Labels */
+label {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Markdown content */
+.markdown {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Gradio specific RTL adjustments */
+.gradio-interface {
+  direction: rtl;
+}
+
+.gradio-input, .gradio-output {
+  direction: rtl;
+}
+
+/* Form elements */
+.form {
+  direction: rtl;
+}
+
+/* Navigation elements */
+.nav {
+  direction: rtl;
 }
