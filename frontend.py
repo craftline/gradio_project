@@ -19,7 +19,7 @@ def process_backend(route, file_obj):
     try:
         with open(file_obj.name, "rb") as f:
             response = requests.post(
-                url="http://localhost:8000/process",  # Change if hosted elsewhere
+                url="http://localhost:8000/process",
                 files={"file": (file_obj.name, f, "application/pdf")},
                 data={"route": route}
             )
@@ -29,6 +29,35 @@ def process_backend(route, file_obj):
             return f"خطأ: {response.json().get('error')}"
     except Exception as e:
         return f"حدث خطأ أثناء الاتصال بالخادم: {str(e)}"
+
+# New helper for App A (PDF splitting and Dify workflow)
+def process_split_pdf(pdf_file, xlsx_file):
+    if not pdf_file or not xlsx_file:
+        return "يرجى رفع كل من ملف PDF وملف Excel."
+    try:
+        files = {
+            "pdf": (pdf_file.name, open(pdf_file.name, "rb"), "application/pdf"),
+            "excel": (xlsx_file.name, open(xlsx_file.name, "rb"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        }
+        response = requests.post("http://localhost:8000/split_pdf", files=files)
+        if response.status_code != 200:
+            return f"خطأ: {response.json().get('error')}"
+
+        data = response.json()
+        results = data.get("results", [])
+        log = data.get("log", "")
+
+        if not results:
+            return f"⚠️ لم يتم تلقي أي مخرجات.\n\n📄 السجل:\n{log}"
+
+        output_lines = []
+        for entry in results:
+            output_lines.append(f"✅ {entry['file']}:\n{entry['output']}\n")
+
+        return "\n".join(output_lines) + f"\n\n📄 السجل:\n{log}"
+
+    except Exception as e:
+        return f"حدث خطأ: {str(e)}"
 
 # Page toggles
 def show_home():
@@ -123,7 +152,7 @@ with gr.Blocks(css=css, head=custom_head, title=title) as demo:
         gr.Markdown("تلخيص الملفات باللغة العربية")
         file_input1 = gr.File(label="ارفع ملفك هنا")
         output_box1 = gr.Textbox(label="المخرجات", lines=10)
-        gr.Button("تشغيل النموذج").click(fn=lambda f: process_backend("A", f), inputs=[file_input1], outputs=[output_box1])
+        gr.Button("تشغيل النموذج").click(fn=lambda f1, f2: process_split_pdf(f1, f2), inputs=[file_input_pdf, file_input_xlsx], outputs=[output_box1])
         gr.Button("⬅ العودة").click(fn=show_home, outputs=[home, app1, app2, app3, app4])
 
     # APP 2
